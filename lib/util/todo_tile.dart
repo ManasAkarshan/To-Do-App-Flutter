@@ -2,47 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo/util/dialog_box.dart';
 
-import '../data/database.dart';
-
 //ignore: must_be_immutable
 class ToDoTile extends StatefulWidget {
   
-   ToDoTile(
+  const ToDoTile(
       {required this.taskName,
       required this.taskCompleted,
       required this.onChanged,
       required this.deleteFunction,
-      super.key,  }
+      super.key, required this.save, required this.editCont,  }
     );
 
-  String taskName;
-  bool taskCompleted;
+  final String taskName;
+  final bool taskCompleted;
   final void Function(bool?) onChanged;
   final void Function(BuildContext) deleteFunction;
+  final void Function() save;
+  final TextEditingController editCont;
 
   @override
   State<ToDoTile> createState() => _ToDoTileState();
 }
 
 class _ToDoTileState extends State<ToDoTile> {
-  final editController = TextEditingController();
-  ToDoDataBase db = ToDoDataBase();
-
-  void saveEdit(String edit){
-    if(edit.isNotEmpty){
-      setState(() {
-        db.toDoList.remove([widget.taskName, widget.taskCompleted]);
-        widget.taskName = edit;
-        widget.taskCompleted = false;
-        db.toDoList.add([edit, false]);
-        editController.clear();
-      });
-      Navigator.pop(context);
-      db.updateDataBase();
-    }
-  }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -91,8 +73,8 @@ class _ToDoTileState extends State<ToDoTile> {
                         if(value == 'Edit'){
                           showDialog(context: context, builder: (ctx){
                             return DialogBox(
-                              controller: editController, 
-                              onSave: (){saveEdit(editController.text);}, 
+                              controller: widget.editCont, 
+                              onSave: widget.save, 
                               onCancel: (){Navigator.pop(context);},
                               hintText: 'Edit',);
                             }

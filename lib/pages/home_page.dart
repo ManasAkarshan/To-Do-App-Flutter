@@ -34,6 +34,7 @@ class _HomePageState extends State<HomePage>{
 
   //Creating a TextEditingController to reference in the dialog box class
   final _controller = TextEditingController();
+  final editCont = TextEditingController();
 
   ToDoDataBase db = ToDoDataBase();
 
@@ -97,6 +98,15 @@ class _HomePageState extends State<HomePage>{
     );
   }
 
+  void saveEdit(String edit, int index){
+    setState(() {
+      db.toDoList.removeAt(index);
+      db.toDoList.add([edit, false]);
+    });
+    db.updateDataBase();
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(context){
     return  Scaffold(
@@ -123,6 +133,10 @@ class _HomePageState extends State<HomePage>{
             },
             deleteFunction: (ctx){
               deleteTask(index);
+            },
+            editCont: editCont,
+            save: (){
+              saveEdit(editCont.text, index);
             },
           );
         }
