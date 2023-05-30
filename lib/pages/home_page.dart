@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage>{
     showDialog(
       context: context, 
       builder: (context){
-        return DialogBox(onSave: saveNewTask, onCancel: onCancel, controller: _controller);
+        return DialogBox(onSave: saveNewTask, onCancel: onCancel, controller: _controller, hintText: 'Add new task',);
       }
     );
   }
