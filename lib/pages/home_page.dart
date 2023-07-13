@@ -52,14 +52,16 @@ class _HomePageState extends State<HomePage>{
   }
 
   void saveNewTask(){
-    setState(() {
-      db.toDoList.add([_controller.text, false]);
-      _controller.clear();
-    });
-    //Popping the dialog box
-    Navigator.of(context).pop();
-    //updating the database
-    db.updateDataBase();
+    if(_controller.text.isNotEmpty){
+      setState(() {
+        db.toDoList.add([_controller.text, false]);
+        _controller.clear();
+      });
+      //Popping the dialog box
+      Navigator.of(context).pop();
+      //updating the database
+      db.updateDataBase();
+    }
   } 
 
   void createNewTask(){
@@ -99,12 +101,14 @@ class _HomePageState extends State<HomePage>{
   }
 
   void saveEdit(String edit, int index){
-    setState(() {
-      db.toDoList.removeAt(index);
-      db.toDoList.add([edit, false]);
-    });
-    db.updateDataBase();
-    Navigator.pop(context);
+    if(edit.isNotEmpty){
+      setState(() {
+        db.toDoList.removeAt(index);
+        db.toDoList.add([edit, false]);
+      });
+      db.updateDataBase();
+      Navigator.pop(context);
+    }
   }
 
   @override
