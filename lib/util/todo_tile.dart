@@ -27,7 +27,7 @@ class ToDoTile extends StatefulWidget {
 class _ToDoTileState extends State<ToDoTile> {
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext conte) {
     return Padding(
       padding: const EdgeInsets.only(left: 28, right: 28, top: 20),
       child: Slidable(
@@ -36,7 +36,7 @@ class _ToDoTileState extends State<ToDoTile> {
           children: [
             SlidableAction(
               backgroundColor: Colors.red,
-              onPressed: widget.deleteFunction,
+              onPressed: (ctx){widget.deleteFunction(ctx);},
               icon: Icons.delete,
             )
           ],
@@ -71,17 +71,17 @@ class _ToDoTileState extends State<ToDoTile> {
                     PopupMenuButton(
                       onSelected: (value) {
                         if(value == 'Edit'){
-                          showDialog(context: context, builder: (ctx){
+                          showDialog(context: conte, builder: (ctx){
                             return DialogBox(
                               controller: widget.editCont, 
-                              onSave: widget.save, 
-                              onCancel: (){Navigator.pop(context);},
+                              onSave: (){widget.save(); widget.editCont.clear();}, 
+                              onCancel: (){Navigator.pop(conte);},
                               hintText: 'Edit',);
                             }
                           );
                         }
                         if( value == 'Delete'){
-                          widget.deleteFunction(context);
+                          widget.deleteFunction(conte);
                         }
                         
                       },
